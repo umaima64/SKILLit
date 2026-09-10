@@ -289,9 +289,6 @@ function HomePage() {
               <Link to="/register" className="btn btn-primary btn-lg">
                 Join SKILLit
               </Link>
-              <Link to="/login" className="btn btn-outline-light btn-lg">
-                Try Demo Account
-              </Link>
             </div>
           </div>
         </div>

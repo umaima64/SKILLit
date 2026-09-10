@@ -7,10 +7,45 @@ import {
   saveData,
 } from "../utils/storage";
 
+const demoAccounts = [
+  {
+    id: "user-demo-1",
+    fullName: "Aisha Verma",
+    email: "aisha@skillit.com",
+    password: "demo123",
+    userType: "Student",
+    role: "Student account",
+  },
+  {
+    id: "user-demo-2",
+    fullName: "Rohan Mehta",
+    email: "rohan@skillit.com",
+    password: "demo123",
+    userType: "Freelancer",
+    role: "Freelancer account",
+  },
+  {
+    id: "user-demo-3",
+    fullName: "Nisha Patel",
+    email: "nisha@skillit.com",
+    password: "demo123",
+    userType: "MSME",
+    role: "MSME account",
+  },
+  {
+    id: "user-demo-4",
+    fullName: "City Connect Foundation",
+    email: "org@skillit.com",
+    password: "demo123",
+    userType: "Local Organization",
+    role: "Local Organization account",
+  },
+];
+
 function LoginPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    email: "demo@skillit.com",
+    email: "aisha@skillit.com",
     password: "demo123",
   });
   const [error, setError] = useState("");
@@ -32,7 +67,9 @@ function LoginPage() {
     );
 
     if (!match) {
-      setError("Invalid email or password. Try the demo account details.");
+      setError(
+        "Invalid email or password. Try one of the demo account details.",
+      );
       return;
     }
 
@@ -41,21 +78,10 @@ function LoginPage() {
     navigate("/dashboard");
   }
 
-  function handleDemoLogin() {
+  function handleDemoLogin(selectedUser) {
     const users = getData(STORAGE_KEYS.users, []);
-    const demoUser = users.find(
-      (user) => user.email === "demo@skillit.com",
-    ) || {
-      id: "user-demo-1",
-      fullName: "Aisha Verma",
-      email: "demo@skillit.com",
-      userType: "Student",
-      skillsOffered: ["Web Development", "UI/UX"],
-      skillsNeeded: ["Graphic Design"],
-      location: "Bengaluru",
-      availability: "Weekends",
-      experience: "2 years",
-    };
+    const demoUser =
+      users.find((user) => user.email === selectedUser.email) || selectedUser;
 
     saveData(STORAGE_KEYS.currentUser, demoUser);
     navigate("/dashboard");
@@ -64,12 +90,28 @@ function LoginPage() {
   return (
     <div className="container py-5">
       <div className="row justify-content-center">
-        <div className="col-lg-5">
+        <div className="col-lg-6">
           <div className="card shadow-sm border-0 rounded-4 p-4 auth-card">
             <h2 className="mb-3">Login</h2>
             <p className="text-muted">
-              Demo authentication is enabled for hackathon use only.
+              Use any of the demo accounts below to test the app with
+              role-specific data.
             </p>
+
+            <div className="demo-account-grid mt-4">
+              {demoAccounts.map((account) => (
+                <button
+                  key={account.email}
+                  type="button"
+                  className="demo-account-item"
+                  onClick={() => handleDemoLogin(account)}
+                >
+                  <span className="demo-account-type">{account.role}</span>
+                  <strong>{account.fullName}</strong>
+                  <small>{account.email}</small>
+                </button>
+              ))}
+            </div>
 
             <form onSubmit={handleSubmit} className="mt-4">
               <div className="mb-3">
@@ -101,13 +143,6 @@ function LoginPage() {
               <div className="d-grid gap-3 mt-4">
                 <button type="submit" className="btn btn-primary">
                   Login
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary-outline"
-                  onClick={handleDemoLogin}
-                >
-                  Try Demo Account
                 </button>
               </div>
             </form>

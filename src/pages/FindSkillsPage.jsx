@@ -8,7 +8,7 @@ import {
   saveData,
 } from "../utils/storage";
 
-const USER_TYPES = ["Student", "Freelancer", "MSME", "Organization"];
+const USER_TYPES = ["Student", "Freelancer", "MSME", "Local Organization"];
 
 function calculateMatchScore(currentUser, targetUser) {
   if (!currentUser || !targetUser) return 0;

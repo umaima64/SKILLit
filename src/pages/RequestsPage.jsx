@@ -67,6 +67,12 @@ function RequestsPage() {
     pending: requests.filter((request) => request.status === "Pending").length,
     accepted: requests.filter((request) => request.status === "Accepted")
       .length,
+    rejected: requests.filter((request) => request.status === "Rejected")
+      .length,
+    cancelled: requests.filter((request) => request.status === "Cancelled")
+      .length,
+    completed: requests.filter((request) => request.status === "Completed")
+      .length,
   };
 
   if (!currentUser) {
@@ -117,6 +123,8 @@ function RequestsPage() {
             { label: "Pending", value: "Pending" },
             { label: "Accepted", value: "Accepted" },
             { label: "Rejected", value: "Rejected" },
+            { label: "Cancelled", value: "Cancelled" },
+            { label: "Completed", value: "Completed" },
           ].map((tab) => (
             <button
               key={tab.value}
@@ -179,6 +187,20 @@ function RequestsPage() {
                         }
                       >
                         Reject
+                      </button>
+                    </div>
+                  )}
+
+                {request.direction === "Sent" &&
+                  request.status === "Pending" && (
+                    <div className="mt-3 d-flex gap-2">
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() =>
+                          handleStatusChange(request.id, "Cancelled")
+                        }
+                      >
+                        Cancel Request
                       </button>
                     </div>
                   )}

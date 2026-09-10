@@ -1,3 +1,91 @@
+.skillit-navbar {
+  background: linear-gradient(135deg, #071a2f, #123d7f 62%, #1d5bd7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 30px rgba(12, 35, 68, 0.12);
+}
+
+.skillit-navbar .navbar-brand,
+.skillit-navbar .nav-link,
+.skillit-navbar .nav-user-badge,
+.skillit-navbar .nav-logout {
+  color: #f8fbff;
+}
+
+.skillit-navbar .nav-link {
+  opacity: 0.82;
+  font-weight: 600;
+  padding: 0.65rem 0.8rem;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.skillit-navbar .nav-link:hover,
+.skillit-navbar .nav-link.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-user-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.nav-logout {
+  border-radius: 999px;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.demo-account-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.demo-account-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #dfe9ff;
+  border-radius: 1rem;
+  background: #f7faff;
+  color: #0a1424;
+  padding: 0.85rem 0.95rem;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.demo-account-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 22px rgba(15, 94, 247, 0.08);
+}
+
+.demo-account-type {
+  display: inline-flex;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f5ef7;
+  font-weight: 700;
+}
+
+.demo-account-item strong {
+  font-size: 1rem;
+}
+
+.demo-account-item small {
+  color: #52627b;
+}
+
 .skillit-homepage {
   color: #1f2d3d;
 }

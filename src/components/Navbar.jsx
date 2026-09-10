@@ -1,6 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { STORAGE_KEYS, getData, saveData } from "../utils/storage";
 
-const navItems = [
+const publicNavItems = [
+  { label: "Home", to: "/" },
+  { label: "Login", to: "/login" },
+  { label: "Register", to: "/register" },
+];
+
+const privateNavItems = [
   { label: "Home", to: "/" },
   { label: "Dashboard", to: "/dashboard" },
   { label: "Find Skills", to: "/find-skills" },
@@ -8,11 +15,21 @@ const navItems = [
   { label: "Services", to: "/services" },
   { label: "Requests", to: "/requests" },
   { label: "Notifications", to: "/notifications" },
+  { label: "Profile", to: "/profile" },
 ];
 
 function Navbar() {
+  const navigate = useNavigate();
+  const currentUser = getData(STORAGE_KEYS.currentUser, null);
+  const navItems = currentUser ? privateNavItems : publicNavItems;
+
+  function handleLogout() {
+    saveData(STORAGE_KEYS.currentUser, null);
+    navigate("/login");
+  }
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark skillit-navbar sticky-top">
+    <nav className="navbar navbar-expand-lg skillit-navbar sticky-top">
       <div className="container">
         <NavLink className="navbar-brand brand-mark" to="/">
           SKILLit
@@ -44,11 +61,29 @@ function Navbar() {
                 </NavLink>
               </li>
             ))}
-            <li className="nav-item">
-              <NavLink className="btn btn-primary btn-sm ms-lg-3" to="/login">
-                Login
-              </NavLink>
-            </li>
+
+            {currentUser ? (
+              <>
+                <li className="nav-item">
+                  <span className="nav-user-badge">{currentUser.fullName}</span>
+                </li>
+                <li className="nav-item">
+                  <button
+                    type="button"
+                    className="btn btn-outline-light btn-sm nav-logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <NavLink className="btn btn-primary btn-sm ms-lg-2" to="/login">
+                  Login
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

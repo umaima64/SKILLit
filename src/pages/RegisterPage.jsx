@@ -143,7 +143,7 @@ function RegisterPage() {
                   <option>Student</option>
                   <option>Freelancer</option>
                   <option>MSME</option>
-                  <option>Organization</option>
+                  <option>Local Organization</option>
                 </select>
               </div>
 

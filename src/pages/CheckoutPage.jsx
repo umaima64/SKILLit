@@ -12,6 +12,7 @@ function CheckoutPage() {
   const navigate = useNavigate();
 
   initializeDemoData();
+  const currentUser = getData(STORAGE_KEYS.currentUser, null);
   const service = useMemo(
     () => getData(STORAGE_KEYS.services, []).find((item) => item.id === id),
     [id],
@@ -29,12 +30,20 @@ function CheckoutPage() {
 
   function handleCheckout() {
     const notifications = getData(STORAGE_KEYS.notifications, []);
+    const paymentRef = `TEST-${Date.now().toString().slice(-6)}`;
+
     notifications.unshift({
       id: `notif-${Date.now()}`,
-      title: "Payment successful",
-      message: `Your order for ${service.title} was placed successfully.`,
+      userId: currentUser?.id || "guest",
+      title: "Test mode payment successful",
+      message: `Your payment for ${service.title} was processed successfully in test mode. Reference: ${paymentRef}`,
+      read: false,
     });
+
     saveData(STORAGE_KEYS.notifications, notifications);
+    window.alert(
+      `Test mode payment successful!\n\nOrder: ${service.title}\nAmount: ₹${service.price}\nReference: ${paymentRef}\n\nA confirmation has been saved to your notifications.`,
+    );
     navigate("/dashboard");
   }
 
@@ -59,7 +68,11 @@ function CheckoutPage() {
             <div className="row g-3 mt-2">
               <div className="col-md-6">
                 <label className="form-label">Name</label>
-                <input className="form-control" value="Demo User" readOnly />
+                <input
+                  className="form-control"
+                  value={currentUser?.fullName || "Demo User"}
+                  readOnly
+                />
               </div>
               <div className="col-md-6">
                 <label className="form-label">Payment method</label>

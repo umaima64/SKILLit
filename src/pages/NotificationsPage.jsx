@@ -11,9 +11,13 @@ function NotificationsPage() {
 
   initializeDemoData();
 
+  const currentUser = getData(STORAGE_KEYS.currentUser, null);
   const notifications = useMemo(
-    () => getData(STORAGE_KEYS.notifications, []),
-    [],
+    () =>
+      getData(STORAGE_KEYS.notifications, []).filter(
+        (item) => item.userId === currentUser?.id || !item.userId,
+      ),
+    [currentUser],
   );
 
   const visibleNotifications =
@@ -25,17 +29,35 @@ function NotificationsPage() {
     const updated = notifications.map((notification) =>
       notification.id === id ? { ...notification, read: true } : notification,
     );
-    saveData(STORAGE_KEYS.notifications, updated);
+    const allNotifications = getData(STORAGE_KEYS.notifications, []).map(
+      (notification) =>
+        updated.some((item) => item.id === notification.id)
+          ? updated.find((item) => item.id === notification.id)
+          : notification,
+    );
+    saveData(STORAGE_KEYS.notifications, allNotifications);
     window.location.reload();
   }
 
   function markAllAsRead() {
-    const updated = notifications.map((notification) => ({
-      ...notification,
-      read: true,
-    }));
+    const updated = getData(STORAGE_KEYS.notifications, []).map(
+      (notification) =>
+        notification.userId === currentUser?.id || !notification.userId
+          ? { ...notification, read: true }
+          : notification,
+    );
     saveData(STORAGE_KEYS.notifications, updated);
     window.location.reload();
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="container py-5">
+        <div className="alert alert-warning">
+          Please log in to see your notifications.
+        </div>
+      </div>
+    );
   }
 
   return (
